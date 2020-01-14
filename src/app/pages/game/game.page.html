@@ -7,14 +7,19 @@
     <ion-row class="ion-align-items-center ion-justify-content-center" style="flex-direction: column">
       <ion-item class="ion-align-items-center"> Guess the number! </ion-item>
       
-    <ion-chip>
-      <ion-label>Default</ion-label>
-    </ion-chip>
+      <ion-input type="tel" value="{{placeholder}}" maxlength="{{digits}}" [ngModel]="([userGuess])" >  </ion-input>
+      <!--
+      <ion-list>
+        <ion-item *ngFor="let previousGuess of previousGuesses" class="previousGuess">
+          <div *ngFor="let number of previousGuess.userGuess" class="number"> {{ number }}  </div>
+          <img src="../../../assets/icon/Cow.png" class="small-image"> = {{ previousGuess.cows }}
+          <img src="../../../assets/icon/Chicken.png" class="small-image"> = {{ previousGuess.chickens }}
+        </ion-item> -->
 
+      </ion-list>
     <ion-item>
-      <ion-label> <img src="../../../assets/icon/Cow.png"> Default Item</ion-label>
+      <ion-label> <img src="../../../assets/icon/Cow.png"> </ion-label>
     </ion-item>
-
 
     </ion-row>
   </ion-grid>

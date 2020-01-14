@@ -1,0 +1,22 @@
+$padding: 5px;
+
+.previousGuess {
+    color : grey;
+    font-size: medium;
+
+}
+
+.small-image {
+    width: 25px;
+    height: auto;
+    margin: $padding;
+}
+
+.number {
+    padding: $padding;
+    border-right: 1px solid black;
+}
+
+input {
+    text-align: center;
+}

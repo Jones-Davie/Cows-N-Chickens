@@ -9,8 +9,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/game/game.module').then( m => m.GamePageModule)
   },
   {
-    path: 'setup',
-    loadChildren: () => import('./pages/setup/setup.module').then( m => m.SetupPageModule)
+    path: 'user',
+    loadChildren: () => import('./pages/user/user.module').then( m => m.UserPageModule)
   },
 ];
 
