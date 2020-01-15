@@ -2,14 +2,22 @@
 
 </ion-header>
 
-<ion-content>
+<ion-content padding>
   <ion-grid>
-    <ion-row class="ion-align-items-center ion-justify-content-center" style="flex-direction: column">
-      <ion-item class="ion-align-items-center"> Guess the number! </ion-item>
+
+    <ion-row ion-row justify-content-center align-items-center style="flex-direction: column" *ngIf="!gameOver">
+      <ion-item class="ion-align-items-center"> <div class="title"> Guess the number! </div> </ion-item>
       
       
-      <ion-input type="number" placeholder="Enter Number" maxlength="{{digits}}" onKeyPress="if(this.value.length==4) return false;" (keydown)="onKeydown($event)" id="userInput">  </ion-input>
+      <ion-input type="number" placeholder="Enter Number" maxlength="{{digits}}" onKeyPress="if(this.value.length==4) return false;" (keydown)="onKeydown($event)" id="userInput" autofocus>  </ion-input>
       
+      <ion-item *ngIf="guessed" class="result">
+        <div *ngIf="numCows == 0 && numChickens == 0"> too bad, try again!  </div>
+        <div *ngIf="numCows != 0 || numChickens != 0">
+          <img src="../../../assets/icon/Cow.png" class="small-image"> = {{ numCows }}
+          <img src="../../../assets/icon/Chicken.png" class="small-image"> = {{ numChickens }}
+        </div>
+      </ion-item>
       <!--
       <ion-list>
         <ion-item *ngFor="let previousGuess of previousGuesses" class="previousGuess">
@@ -19,10 +27,31 @@
         </ion-item> 
 
       </ion-list> -->
-    <ion-item>
-      <ion-label> <img src="../../../assets/icon/Cow.png"> </ion-label>
-    </ion-item>
 
     </ion-row>
+
+    <ion-row ion-row justify-content-center align-items-center style="flex-direction: column" *ngIf="gameOver">
+      <ion-item>
+        <ion-label class="title"> Congratulations! </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label> Total  <img src="../../../assets/icon/Cow.png" class="small-image"> = {{ totalCows }} </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label> Total  <img src="../../../assets/icon/Chicken.png" class="small-image"> = {{ totalChickens }} </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label> Total  Guesses = {{ totalGuesses }} </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <a [routerLink]="" (click)="reLoad()"> Play Again? </a>
+      </ion-item>
+      
+    </ion-row>
+    
   </ion-grid>
 </ion-content>

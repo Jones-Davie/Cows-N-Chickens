@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Guess } from '../game/classes/guess'
+import { Guess } from '../game/classes/guess';
+import { GameStatsService } from '../../services/game-stats.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-game',
@@ -9,18 +11,25 @@ import { Guess } from '../game/classes/guess'
 export class GamePage implements OnInit {
   
   //init variables
-  private digits = 4;
+  private digits : number = 4;
+
   private theNumber: number[] = [];
   private theGuess: number[] = [];
+  
+  private gameOver = false;
+  private guessed = false;
+
   private numCows : number = 0;
-  private numChickens: number = 0; 
-  private totalChickens: number;
-  private totalCows : number;
-  private numHits : number;
+  private numChickens: number = 0;
+  private totalGuesses : number = 0;
+  private totalChickens: number = 0;
+  private totalCows : number = 0;
+  private numHits : number = 0;
+
   private previousGuesses = [];
   
   constructor() {
-    this.generateNumber();
+    this.generateNumber(); //generate number
    }
 
   ngOnInit() {
@@ -32,6 +41,8 @@ export class GamePage implements OnInit {
     for (let i = 0; i < this.digits; i++) {
       let digit = Math.floor(Math.random() * 9);
         this.theNumber.push(digit);
+
+        console.log(this.theNumber);
     }
   }
 
@@ -56,7 +67,6 @@ export class GamePage implements OnInit {
     }
   }
 
-
   //check the users guess against the random number      
   checkGuess() { 
     this.numCows = 0;
@@ -65,7 +75,11 @@ export class GamePage implements OnInit {
 
     tempNumber = this.checkCows(tempNumber); //filter the cows from the number and the users guess
     this.checkChickens( tempNumber ); //count the chickens in the remaining number
+    this.guessed = true;
+    this.totalGuesses++;
 
+    (<HTMLInputElement> document.getElementById("userInput")).value = "" ; //reset imput field
+    
    }
 
    //check for Cows if the numbers are the same at specific index and filter them when found
@@ -74,10 +88,15 @@ export class GamePage implements OnInit {
       for ( let i = 0; i < this.digits ; i++ ) {
         if ( this.theNumber[i] == this.theGuess[i]) {
         this.numCows++;
+        this.totalCows++;
         this.theGuess[i] = null;
         tempNumber[i] = null;
       }
-    } 
+    }
+
+    if ( this.numCows == this.digits ) {
+      this.gameOver = true;
+    }
 
     return tempNumber
   }
@@ -88,10 +107,14 @@ export class GamePage implements OnInit {
       for ( let j = 0; j < this.theNumber.length; j++ ) {
         if ( this.theGuess[i] == this.theNumber[j]) {
           this.numChickens++;
+          this.totalChickens;
           this.theGuess[i] = null;
         }
       }
     }
   }
 
+  reLoad() {
+    window.location.reload();
+  }
 }
