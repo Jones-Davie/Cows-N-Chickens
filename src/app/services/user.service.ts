@@ -10,29 +10,32 @@ export class UserService {
   constructor() { }
 
   private user : User;
-  
+  private uuidv4 = require('uuid/v4');
+
 
   setUser ( user ) {
     
     this.user = new User();
 
     this.user.userName = user.userName;
-    this.user.birthDate = user.birthDate;
+    this.user.birthDate = new Date (user.birthDate);
+    
     this.user.age = this.generateAge( user.birthDate );
-    this.user.userID = uuid.v4();
+    this.user.userID = this.uuidv4();
+
   }
 
-  generateAge ( birthDate ) {
+  generateAge ( birthDate : Date ) {
 
     let today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    let month = today.getMonth() - birthDate.getMonth();
-    if (month < 0 || (month == 0 && today.getDate() < birthDate.getDate())) 
+    let age = today.getFullYear() - this.user.birthDate.getFullYear();
+    let month = today.getMonth() - this.user.birthDate.getMonth();
+    if (month < 0 || (month == 0 && today.getDate() < this.user.birthDate.getDate())) 
     {
         age--;
     }
 
-    return age
+    return age 
   }
 
   getUser () {

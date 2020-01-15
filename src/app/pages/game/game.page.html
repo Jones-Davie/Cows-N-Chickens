@@ -3,12 +3,20 @@
 </ion-header>
 
 <ion-content padding>
+
   <ion-grid>
+
+    <!-- user info -->
+    <ion-row ion-row justify-content-center align-items-center style="flex-direction: column">
+    
+
+    
+    </ion-row>
 
     <!-- starting the game -->
     <ion-row ion-row justify-content-center align-items-center style="flex-direction: column" *ngIf="!gameStart">
       <ion-item class="ion-align-items-center"> <div class="title"> Choose a number between 4-8 </div> </ion-item>
-      <ion-input type="number" placeholder="Enter Number" onKeyPress="if(this.value.length==1) return false;" (keydown)="onKeydown($event)" id="inputDigits" autofocus>  </ion-input>
+      <ion-input type="number" placeholder="Enter Number" onKeyPress="if(this.value.length==1) return false;" (keydown)="onKeydown($event)" id="inputDigits">  </ion-input>
     
     </ion-row>
 

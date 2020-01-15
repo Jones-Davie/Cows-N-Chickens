@@ -10,8 +10,16 @@
       
   <ion-grid>
     <ion-row justify-content-center align-items-center style="flex-direction: column">
-      <ion-input type="text" [ngModel]="user.userName"> </ion-input>
-      <ion-input type="date" [ngModel]="user.birthDate"> </ion-input>
+      <ion-item class="ion-align-items-center"> <div class="title"> Create New Game </div> </ion-item>
+
+      <form #form="ngForm" (ngSubmit)="setUser(form)" class="col text-center"> 
+        <ion-label> Username </ion-label>
+        <ion-input type="text" [ngModel]="userName" name="userName" placeholder="Username" required > </ion-input>
+        <ion-label> Birthdate </ion-label>
+        <ion-input type="date" [ngModel]="birthDate" name="birthDate" placeholder="Birthdate" required > </ion-input>
+
+        <button ion-button type="submit"> <a [routerLink]="['/game']">submit </a> </button>
+      </form>
     </ion-row>
   </ion-grid>
 

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Guess } from '../../classes/guess';
-import { GameStatsService } from '../../services/game-stats.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -49,6 +47,7 @@ export class GamePage implements OnInit {
     }
   }
 
+  //because the ionic <input type="number" maxlength="{{digits}}" is broken, this workaround is needed
   checkLength (event: KeyboardEvent) : void {
     if (this.gameStart && event.keyCode != 13 ) {
       let userGuess = (<HTMLInputElement> document.getElementById("userInput")).value;
@@ -59,12 +58,14 @@ export class GamePage implements OnInit {
   }
 
 
+  //check the user input for correct values and act accordingly
   onKeydown(event: KeyboardEvent): void {
 
+    //before the game starts the user has to input a number of digits to guess
     if (!this.gameStart) {
       let digitInput = ((<HTMLInputElement> document.getElementById("inputDigits")).value);
       let digit = parseInt(digitInput);
-    
+      //check the users wish against the min-max digits of the game
       if ( event.keyCode === 13 && digit <= this.maxDigits && digit >= this.minDigits ) {
         this.digits = digit;
         this.generateNumber(); //generate number
@@ -72,6 +73,7 @@ export class GamePage implements OnInit {
       }
     }
 
+    //when the game has started we need to check the users input against the number he has to guess
     if (this.gameStart) {
 
       let userGuess = (<HTMLInputElement> document.getElementById("userInput")).value;
@@ -142,6 +144,7 @@ export class GamePage implements OnInit {
     }
   }
 
+  //play again reloads the page
   reLoad() {
     window.location.reload();
   }

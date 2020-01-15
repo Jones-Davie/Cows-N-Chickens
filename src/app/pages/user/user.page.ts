@@ -10,19 +10,26 @@ import { UserService } from '../../services/user.service'
 export class UserPage implements OnInit {
 
 
-  
+  private birthDate : Date = new Date;
+  private userName : String = "";
 
   constructor(
-    private userService : UserService,
-    private user = new User()
+    private userService : UserService
     ) {}
+
 
   ngOnInit() {
     
   }
 
-  setUser () {
+  setUser ( form ) {
 
+    let user: User = new User();
+
+    user.userName = form.value.userName;
+    user.birthDate = new Date (form.value.birthDate);
+    this.userService.setUser(user);
+    
   }
 
 }
