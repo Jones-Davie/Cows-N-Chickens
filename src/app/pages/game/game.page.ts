@@ -140,7 +140,7 @@ export class GamePage implements OnInit {
       for ( let j = 0; j < this.theNumber.length; j++ ) {
         if ( this.theGuess[i] == this.theNumber[j]) {
           this.numChickens++;
-          this.totalChickens;
+          this.totalChickens++;
           this.theGuess[i] = null;
         }
       }
