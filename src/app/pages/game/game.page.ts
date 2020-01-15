@@ -10,9 +10,7 @@ export class GamePage implements OnInit {
   
   //init variables
   private digits = 4;
-  private placeholder: number;
   private theNumber: number[] = [];
-  private userGuess : String = "1234";
   private theGuess: number[] = [];
   private numCows : number = 0;
   private numChickens: number = 0; 
@@ -22,7 +20,6 @@ export class GamePage implements OnInit {
   private previousGuesses = [];
   
   constructor() {
-
     this.generateNumber();
    }
 
@@ -35,42 +32,65 @@ export class GamePage implements OnInit {
     for (let i = 0; i < this.digits; i++) {
       let digit = Math.floor(Math.random() * 9);
         this.theNumber.push(digit);
-      }
+    }
+  }
+
+  onKeydown(event: KeyboardEvent): void {
+    let userGuess = (<HTMLInputElement> document.getElementById("userInput")).value;
+  
+    if (event.keyCode === 13 && userGuess.length == this.digits) {
+      
+      this.pushTheGuess( userGuess );
       this.checkGuess();
     }
+  }
+
+  //convert userGuess to array
+  pushTheGuess ( userGuess ) {
+    this.theGuess = [];
+
+    for ( let i = 0; i < this.digits; i++ ) {
+      let guessNumber = parseInt(userGuess.charAt(0));
+      this.theGuess.push(guessNumber);
+      userGuess = userGuess.slice(1);
+    }
+  }
+
 
   //check the users guess against the random number      
   checkGuess() { 
-    this.pushTheGuess();
+    this.numCows = 0;
+    this.numChickens = 0;
+    let tempNumber = this.theNumber.slice();  //make a copy of the number
 
-    //check for Cows if the numbers are the same at specific index
-    for ( let i = 0; i < this.theNumber.length; i++ ) {
-      if ( this.theNumber[i] == this.theGuess[i]) {
-        this.numCows++;
-        this.theGuess.splice( i , 1 );
-      }
-    }
+    tempNumber = this.checkCows(tempNumber); //filter the cows from the number and the users guess
+    this.checkChickens( tempNumber ); //count the chickens in the remaining number
 
-
-    //check for Chickens if the number is also in the array
-    for (let i = 0; i < this.theGuess.length; i++ ) {
-      for ( let j = 0; j < this.theNumber.length; j++ ) {
-
-        if ( this.theGuess[i] == this.theNumber[j]) {
-          this.numChickens++;
-          this.theGuess.splice( i , 1 );
-        }
-      }
-    }
    }
 
-  //convert userGuess to array
-  pushTheGuess () {
+   //check for Cows if the numbers are the same at specific index and filter them when found
+  checkCows ( tempNumber ) {
+      
+      for ( let i = 0; i < this.digits ; i++ ) {
+        if ( this.theNumber[i] == this.theGuess[i]) {
+        this.numCows++;
+        this.theGuess[i] = null;
+        tempNumber[i] = null;
+      }
+    } 
 
-    for ( let i = 0; i < this.digits; i++ ) {
-      let guessNumber = parseInt(this.userGuess.charAt(0));
-      this.theGuess.push(guessNumber);
-      this.userGuess = this.userGuess.slice(1);
+    return tempNumber
+  }
+
+  //check for Chickens if the number is also in the array and filter them when found
+  checkChickens ( tempNumber ) {
+    for (let i = 0; i < this.theGuess.length; i++ ) {
+      for ( let j = 0; j < this.theNumber.length; j++ ) {
+        if ( this.theGuess[i] == this.theNumber[j]) {
+          this.numChickens++;
+          this.theGuess[i] = null;
+        }
+      }
     }
   }
 

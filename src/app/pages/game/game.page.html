@@ -7,7 +7,9 @@
     <ion-row class="ion-align-items-center ion-justify-content-center" style="flex-direction: column">
       <ion-item class="ion-align-items-center"> Guess the number! </ion-item>
       
-      <ion-input type="tel" value="{{placeholder}}" maxlength="{{digits}}" [ngModel]="([userGuess])" >  </ion-input>
+      
+      <ion-input type="number" placeholder="Enter Number" maxlength="{{digits}}" onKeyPress="if(this.value.length==4) return false;" (keydown)="onKeydown($event)" id="userInput">  </ion-input>
+      
       <!--
       <ion-list>
         <ion-item *ngFor="let previousGuess of previousGuesses" class="previousGuess">
