@@ -26,3 +26,14 @@ ion-input {
     padding-top: 20%;
     padding-bottom: 2%;
 }
+
+ion-label {
+    padding: $padding;
+    margin: $padding;
+}
+
+a {
+    font-size: 30px;
+    text-decoration: none;
+    color: black;
+}

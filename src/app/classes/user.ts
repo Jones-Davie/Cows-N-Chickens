@@ -2,7 +2,7 @@ export class User {
 
     userName: String;
     userID;
-    birthDate: Date;
-    age : number;
+    userBirthDate: Date;
+    userAge : number;
     
 }

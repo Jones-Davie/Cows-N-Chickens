@@ -7,8 +7,11 @@
   <ion-grid>
 
     <!-- user info -->
-    <ion-row ion-row justify-content-center align-items-center style="flex-direction: column">
+    <ion-row ion-row justify-content-center align-items-center style="flex-direction: row" *ngIf="user">
     
+      <ion-label> User: {{user.userName }}   </ion-label>
+      <ion-label> Age: {{user.userAge }}   </ion-label>
+      <ion-label> ID: {{user.userID }}   </ion-label>
 
     
     </ion-row>
@@ -21,7 +24,7 @@
     </ion-row>
 
     <!-- the game -->
-    <ion-row ion-row justify-content-center align-items-center style="flex-direction: column" *ngIf="gameStart && !gameOver">
+    <ion-row justify-content-center align-items-center style="flex-direction: column" *ngIf="gameStart && !gameOver">
       <ion-item class="ion-align-items-center"> <div class="title"> Guess the number! </div> </ion-item>
         
       <ion-input type="number" placeholder="Enter Number" (input)="checkLength($event)" (keydown)="onKeydown($event)" id="userInput" autofocus>  </ion-input>
@@ -38,25 +41,24 @@
 
     <!-- finished the game -->
     <ion-row ion-row justify-content-center align-items-center style="flex-direction: column" *ngIf="gameOver">
+      
       <ion-item>
         <ion-label class="title"> Congratulations! </ion-label>
       </ion-item>
 
-      <ion-item>
+      <ion-item lines="none">
         <ion-label> Total  <img src="../../../assets/icon/Cow.png" class="small-image"> = {{ totalCows }} </ion-label>
       </ion-item>
 
-      <ion-item>
+      <ion-item lines="none">
         <ion-label> Total  <img src="../../../assets/icon/Chicken.png" class="small-image"> = {{ totalChickens }} </ion-label>
       </ion-item>
 
-      <ion-item>
+      <ion-item lines="none">
         <ion-label> Total  Guesses = {{ totalGuesses }} </ion-label>
       </ion-item>
 
-      <ion-item>
-        <a [routerLink]="" (click)="reLoad()"> Play Again? </a>
-      </ion-item>
+        <a [routerLink]="['/home']" > Back to Home </a>
       
     </ion-row>
 

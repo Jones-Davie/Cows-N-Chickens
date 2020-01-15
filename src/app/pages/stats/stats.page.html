@@ -5,5 +5,44 @@
 </ion-header>
 
 <ion-content>
+  <ion-grid>
+  <ion-row justify-content-center align-items-center style="flex-direction: column">
+    here is a preview of what statistics might be interesting <br>
+    all would be shown e.g. 
+    <ion-label>4 digit game : X | 5 digit game: X </ion-label>
+    <ion-label>6 digit game : X | 7 digit game: X </ion-label>
+    <ion-label>8 digit game : X | Total games: X </ion-label>
+  </ion-row>
+    
+  <ion-row justify-content-center align-items-center style="flex-direction: column">
+    <ion-item> Statistics </ion-item>
+    <ion-label> Number Of Games </ion-label>
+    <ion-label> Total Chickens Found </ion-label>
+    <ion-label> Total Cows Found </ion-label>
+    <ion-label> Total Animals Found </ion-label>
+    <ion-label> Total Games Played </ion-label>
+    <ion-label> Shortest Amount of Guesses </ion-label>
+    <ion-label> Longest Amount of Guesses </ion-label>
+    <ion-label> Total Games in 10 tries or less </ion-label>
+    <ion-label> Total Games in (amount of digits * X) tries or more </ion-label>
+    <ion-label> Average Chickens Per Guess </ion-label>
+    <ion-label> Average Cows Per Guess </ion-label>
+    <ion-label> Average Animals Per Guess </ion-label>
+    <ion-label> Average Guesses Per Game </ion-label>
+    <ion-label> With enough data you could perhaps look at statistical anomalies </ion-label>
+  </ion-row> 
 
+  <ion-row justify-content-center align-items-center style="flex-direction: column">
+    <ion-item> Should Be Viewable / Comparable By </ion-item>
+    <ion-label> Gamemode i.e. digit count </ion-label>
+    <ion-label> Own score </ion-label>
+    <ion-label> All Player Scores </ion-label>
+    <ion-label> Player Score By Age Group </ion-label>
+    <ion-label> Player Score By Same Age Group </ion-label>
+    <ion-label> Maybe add a timer later and build scores based on speed * difficulty (i.e. digit mode) </ion-label>
+  </ion-row> 
+  
+  <a [routerLink]="['/home']" > Back to Home </a>
+
+</ion-grid>
 </ion-content>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../classes/user';
-import { UserService } from '../../services/user.service'
+import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -10,11 +11,12 @@ import { UserService } from '../../services/user.service'
 export class UserPage implements OnInit {
 
 
-  private birthDate : Date = new Date;
+  private userBirthDate : Date = new Date;
   private userName : String = "";
 
   constructor(
-    private userService : UserService
+    private userService : UserService,
+    private router : Router
     ) {}
 
 
@@ -22,14 +24,17 @@ export class UserPage implements OnInit {
     
   }
 
+  //send data from the form to the userService
   setUser ( form ) {
 
     let user: User = new User();
 
     user.userName = form.value.userName;
-    user.birthDate = new Date (form.value.birthDate);
+    user.userBirthDate = new Date (form.value.userBirthDate);
     this.userService.setUser(user);
-    
+
+    this.router.navigate(['/game']);
+
   }
 
 }

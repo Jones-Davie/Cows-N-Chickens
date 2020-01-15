@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
+import { User } from 'src/app/classes/user';
 
 @Component({
   selector: 'app-game',
@@ -9,6 +10,7 @@ import { UserService } from '../../services/user.service';
 export class GamePage implements OnInit {
   
   //init variables
+  private user : User;
   private digits = 4;
   private minDigits : number = 4;
   private maxDigits : number = 8;
@@ -25,16 +27,17 @@ export class GamePage implements OnInit {
   private totalGuesses : number = 0;
   private totalChickens: number = 0;
   private totalCows : number = 0;
-  private numHits : number = 0;
 
   private previousGuesses = [];
   
-  constructor() {
-    
+  constructor( private userService : UserService ) {
+
    }
 
   ngOnInit() {
-    
+    //get the user information from the userService
+    this.user = this.userService.getUser();
+
   }
 
   //generate random number based on the digit input
@@ -142,10 +145,5 @@ export class GamePage implements OnInit {
         }
       }
     }
-  }
-
-  //play again reloads the page
-  reLoad() {
-    window.location.reload();
   }
 }
