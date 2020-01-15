@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Guess } from '../game/classes/guess';
+import { Guess } from '../../classes/guess';
 import { GameStatsService } from '../../services/game-stats.service';
 import { UserService } from '../../services/user.service';
 
@@ -11,13 +11,16 @@ import { UserService } from '../../services/user.service';
 export class GamePage implements OnInit {
   
   //init variables
-  private digits : number = 4;
+  private digits = 4;
+  private minDigits : number = 4;
+  private maxDigits : number = 8;
 
   private theNumber: number[] = [];
   private theGuess: number[] = [];
   
+  private gameStart = false;
   private gameOver = false;
-  private guessed = false;
+  private guessedOnce = false;
 
   private numCows : number = 0;
   private numChickens: number = 0;
@@ -29,7 +32,7 @@ export class GamePage implements OnInit {
   private previousGuesses = [];
   
   constructor() {
-    this.generateNumber(); //generate number
+    
    }
 
   ngOnInit() {
@@ -46,13 +49,38 @@ export class GamePage implements OnInit {
     }
   }
 
+  checkLength (event: KeyboardEvent) : void {
+    if (this.gameStart && event.keyCode != 13 ) {
+      let userGuess = (<HTMLInputElement> document.getElementById("userInput")).value;
+      if (userGuess.length > this.digits ) {
+        (<HTMLInputElement> document.getElementById("userInput")).value = userGuess.slice(0, -1)
+      }
+    }
+  }
+
+
   onKeydown(event: KeyboardEvent): void {
-    let userGuess = (<HTMLInputElement> document.getElementById("userInput")).value;
-  
-    if (event.keyCode === 13 && userGuess.length == this.digits) {
-      
-      this.pushTheGuess( userGuess );
-      this.checkGuess();
+
+    if (!this.gameStart) {
+      let digitInput = ((<HTMLInputElement> document.getElementById("inputDigits")).value);
+      let digit = parseInt(digitInput);
+    
+      if ( event.keyCode === 13 && digit <= this.maxDigits && digit >= this.minDigits ) {
+        this.digits = digit;
+        this.generateNumber(); //generate number
+        this.gameStart = true;
+      }
+    }
+
+    if (this.gameStart) {
+
+      let userGuess = (<HTMLInputElement> document.getElementById("userInput")).value;
+    
+      if (event.keyCode === 13 && userGuess.length == this.digits) {
+        
+        this.pushTheGuess( userGuess );
+        this.checkGuess();
+      }
     }
   }
 
@@ -75,7 +103,7 @@ export class GamePage implements OnInit {
 
     tempNumber = this.checkCows(tempNumber); //filter the cows from the number and the users guess
     this.checkChickens( tempNumber ); //count the chickens in the remaining number
-    this.guessed = true;
+    this.guessedOnce = true;
     this.totalGuesses++;
 
     (<HTMLInputElement> document.getElementById("userInput")).value = "" ; //reset imput field

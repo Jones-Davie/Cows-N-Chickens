@@ -1,9 +1,19 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>user</ion-title>
-  </ion-toolbar>
+
+  <title>
+    Cows-N-Chickens
+  </title>
+
 </ion-header>
 
-<ion-content>
+  <ion-content padding>
+      
+  <ion-grid>
+    <ion-row justify-content-center align-items-center style="flex-direction: column">
+      <ion-input type="text" [ngModel]="user.userName"> </ion-input>
+      <ion-input type="date" [ngModel]="user.birthDate"> </ion-input>
+    </ion-row>
+  </ion-grid>
+
 
 </ion-content>
