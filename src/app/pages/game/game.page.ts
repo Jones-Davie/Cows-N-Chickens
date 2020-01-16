@@ -45,9 +45,9 @@ export class GamePage implements OnInit {
     for (let i = 0; i < this.digits; i++) {
       let digit = Math.floor(Math.random() * 9);
         this.theNumber.push(digit);
-
-        console.log(this.theNumber);
     }
+    console.log(this.theNumber); //for test/demo purposes log the number
+
   }
 
   //because the ionic <input type="number" maxlength="{{digits}}" is broken, this workaround is needed
@@ -146,4 +146,17 @@ export class GamePage implements OnInit {
       }
     }
   }
+
+  playAgain () {
+
+    this.gameStart = false;
+    this.gameOver = false;
+    this.guessedOnce = false;
+    
+    this.totalCows = 0;
+    this.totalChickens = 0;
+    this.totalGuesses = 0;
+
+  }
+
 }
