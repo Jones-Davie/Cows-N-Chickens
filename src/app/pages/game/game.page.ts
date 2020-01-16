@@ -42,6 +42,8 @@ export class GamePage implements OnInit {
 
   //generate random number based on the digit input
   generateNumber () {
+
+    this.theNumber = []
     for (let i = 0; i < this.digits; i++) {
       let digit = Math.floor(Math.random() * 9);
         this.theNumber.push(digit);

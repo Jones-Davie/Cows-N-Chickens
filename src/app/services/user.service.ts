@@ -9,7 +9,7 @@ export class UserService {
 
   constructor() { }
 
-  private require: any;
+  //private require: any;
   user : User = new User();
   private uuidv4 = require('uuid/v4');
 
