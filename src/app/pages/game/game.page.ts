@@ -111,9 +111,9 @@ export class GamePage implements OnInit {
     
     let tempNumber = this.theNumber.slice();  //make a copy of the number
     let tempGuess = this.theGuess.slice(); //make a copy of the Guess
-    let tempStats = { tempNumber, tempGuess } // add them both to a object to pass along the functions
+
     
-    tempStats = this.checkCows( tempStats ); //filter the cows from the number and the users guess
+    let tempStats = this.checkCows( tempNumber, tempGuess ); //filter the cows from the number and the users guess
 
     //check if the game is over after checking for cows
     if ( this.numCows == this.digits ) {
@@ -124,7 +124,7 @@ export class GamePage implements OnInit {
       
       this.checkChickens( tempStats ); 
       this.guessedOnce = true;
-      this.totalGuesses++;
+      this.addTotalGuess();
     }
 
     (<HTMLInputElement> document.getElementById("userInput")).value = "" ; //reset imput field
@@ -132,10 +132,7 @@ export class GamePage implements OnInit {
    }
 
    //check for Cows if the numbers are the same at specific index and filter them when found
-  checkCows ( tempStats ) {
-      
-    let tempNumber = tempStats[0];
-    let tempGuess = tempStats[1]
+  checkCows ( tempNumber, tempGuess ) {
     
       for ( let i = 0; i < this.digits ; i++ ) {
         if ( this.theNumber[i] == this.theGuess[i]) {
@@ -152,12 +149,14 @@ export class GamePage implements OnInit {
   //check for Chickens if the number is also in the array and filter them when found
   checkChickens ( tempStats ) {
     
-    let tempNumber = tempStats[0];
-    let tempGuess = tempStats[1]
+    let tempNumber = tempStats.tempNumber;
+    console.log(tempNumber);
+    let tempGuess = tempStats.tempGuess;
+    console.log(tempGuess);
 
     for (let i = 0; i < tempGuess.length; i++ ) {
       for ( let j = 0; j < tempNumber.length; j++ ) {
-        if ( tempGuess[i] == tempNumber[j]) {
+        if ( tempGuess[i] == tempNumber[j] && tempGuess[i] != null) {
           
           this.addChickens();
           this.addTotalChickens()
@@ -185,8 +184,11 @@ export class GamePage implements OnInit {
     this.totalChickens++;
   }
 
-  //resetfunctions
+  addTotalGuess () {
+    this.totalGuesses++;
+  }
 
+  //resetfunctions
   resetTheGuess () {
     this.theGuess = [];
   }
@@ -198,8 +200,6 @@ export class GamePage implements OnInit {
   resetChickens () {
     this.numChickens = 0;
   }
-
-
 
   playAgain () {
 
