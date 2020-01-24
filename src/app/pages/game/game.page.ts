@@ -93,7 +93,8 @@ export class GamePage implements OnInit {
 
   //convert userGuess to array
   pushTheGuess ( userGuess ) {
-    this.theGuess = [];
+    
+    this.resetTheGuess();
 
     for ( let i = 0; i < this.digits; i++ ) {
       let guessNumber = parseInt(userGuess.charAt(0));
@@ -104,55 +105,101 @@ export class GamePage implements OnInit {
 
   //check the users guess against the random number      
   checkGuess() { 
-    this.numCows = 0;
-    this.numChickens = 0;
+
+    this.resetCows();
+    this.resetChickens();
+    
     let tempNumber = this.theNumber.slice();  //make a copy of the number
+    let tempGuess = this.theGuess.slice(); //make a copy of the Guess
+    let tempStats = { tempNumber, tempGuess } // add them both to a object to pass along the functions
+    
+    tempStats = this.checkCows( tempStats ); //filter the cows from the number and the users guess
 
-    tempNumber = this.checkCows(tempNumber); //filter the cows from the number and the users guess
-
+    //check if the game is over after checking for cows
     if ( this.numCows == this.digits ) {
       
       this.gameOver = true;
     
-    } else {
+    } else { //else count the chickens in the remaining number
       
-      this.checkChickens( tempNumber ); //count the chickens in the remaining number
+      this.checkChickens( tempStats ); 
       this.guessedOnce = true;
       this.totalGuesses++;
     }
-    
+
     (<HTMLInputElement> document.getElementById("userInput")).value = "" ; //reset imput field
     
    }
 
    //check for Cows if the numbers are the same at specific index and filter them when found
-  checkCows ( tempNumber ) {
+  checkCows ( tempStats ) {
       
+    let tempNumber = tempStats[0];
+    let tempGuess = tempStats[1]
+    
       for ( let i = 0; i < this.digits ; i++ ) {
         if ( this.theNumber[i] == this.theGuess[i]) {
-        this.numCows++;
-        this.totalCows++;
-        this.theGuess[i] = null;
+        this.addCows();
+        this.addTotalCows();
         tempNumber[i] = null;
+        tempGuess[i] = null;
       }
     }
 
-    return tempNumber
+    return { tempNumber, tempGuess }
   }
 
   //check for Chickens if the number is also in the array and filter them when found
-  checkChickens ( tempNumber ) {
-    for (let i = 0; i < this.theGuess.length; i++ ) {
-      for ( let j = 0; j < this.theNumber.length; j++ ) {
-        if ( this.theGuess[i] == tempNumber[j]) {
-          this.numChickens++;
-          this.totalChickens++;
-          this.theGuess[i] = null;
-          tempNumber[j] == null;
+  checkChickens ( tempStats ) {
+    
+    let tempNumber = tempStats[0];
+    let tempGuess = tempStats[1]
+
+    for (let i = 0; i < tempGuess.length; i++ ) {
+      for ( let j = 0; j < tempNumber.length; j++ ) {
+        if ( tempGuess[i] == tempNumber[j]) {
+          
+          this.addChickens();
+          this.addTotalChickens()
+          tempGuess[i] = null;
+          tempNumber[j] = null;
         }
       }
     }
   }
+
+  //adding functions
+  addCows () {
+    this.numCows++;
+  }
+  
+  addChickens () {
+    this.numChickens++;
+  }
+
+  addTotalCows () {
+    this.totalCows++;
+  }
+
+  addTotalChickens () {
+    this.totalChickens++;
+  }
+
+  //resetfunctions
+
+  resetTheGuess () {
+    this.theGuess = [];
+  }
+
+  resetCows () {
+    this.numCows = 0;
+  }
+
+  resetChickens () {
+    this.numChickens = 0;
+  }
+
+
 
   playAgain () {
 
