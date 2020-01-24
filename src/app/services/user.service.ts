@@ -1,3 +1,5 @@
+declare var require: any;
+
 import { Injectable } from '@angular/core';
 import * as uuid from 'uuid';
 import { User } from '../classes/user';
@@ -18,15 +20,10 @@ export class UserService {
   setUser ( user ) {
     
     this.user.userName = user.userName;
-
-    console.log(user.birthDate);
     this.user.userBirthDate = user.userBirthDate;
     
     this.user.userAge = this.generateAge( user.userBirthDate );
-
-    console.log(this.user.userAge)
     this.user.userID = this.uuidv4();
-
 
   }
 
@@ -40,7 +37,7 @@ export class UserService {
     {
         age--;
     }
-    console.log(age);
+
     return age 
   }
 

@@ -109,10 +109,18 @@ export class GamePage implements OnInit {
     let tempNumber = this.theNumber.slice();  //make a copy of the number
 
     tempNumber = this.checkCows(tempNumber); //filter the cows from the number and the users guess
-    this.checkChickens( tempNumber ); //count the chickens in the remaining number
-    this.guessedOnce = true;
-    this.totalGuesses++;
 
+    if ( this.numCows == this.digits ) {
+      
+      this.gameOver = true;
+    
+    } else {
+      
+      this.checkChickens( tempNumber ); //count the chickens in the remaining number
+      this.guessedOnce = true;
+      this.totalGuesses++;
+    }
+    
     (<HTMLInputElement> document.getElementById("userInput")).value = "" ; //reset imput field
     
    }
@@ -129,10 +137,6 @@ export class GamePage implements OnInit {
       }
     }
 
-    if ( this.numCows == this.digits ) {
-      this.gameOver = true;
-    }
-
     return tempNumber
   }
 
@@ -140,10 +144,11 @@ export class GamePage implements OnInit {
   checkChickens ( tempNumber ) {
     for (let i = 0; i < this.theGuess.length; i++ ) {
       for ( let j = 0; j < this.theNumber.length; j++ ) {
-        if ( this.theGuess[i] == this.theNumber[j]) {
+        if ( this.theGuess[i] == tempNumber[j]) {
           this.numChickens++;
           this.totalChickens++;
           this.theGuess[i] = null;
+          tempNumber[j] == null;
         }
       }
     }
