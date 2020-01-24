@@ -43,12 +43,11 @@ export class GamePage implements OnInit {
   //generate random number based on the digit input
   generateNumber () {
 
-    this.theNumber = []
     for (let i = 0; i < this.digits; i++) {
       let digit = Math.floor(Math.random() * 9);
         this.theNumber.push(digit);
     }
-    console.log(this.theNumber); //for test/demo purposes log the number
+    console.log(this.theNumber); //for test-demo purposes log the number
 
   }
 
@@ -68,9 +67,11 @@ export class GamePage implements OnInit {
 
     //before the game starts the user has to input a number of digits to guess
     if (!this.gameStart) {
+     
       let digitInput = ((<HTMLInputElement> document.getElementById("inputDigits")).value);
       let digit = parseInt(digitInput);
-      //check the users wish against the min-max digits of the game
+     
+      //check the input vs the min-max digits of the game
       if ( event.keyCode === 13 && digit <= this.maxDigits && digit >= this.minDigits ) {
         this.digits = digit;
         this.generateNumber(); //generate number
@@ -78,7 +79,7 @@ export class GamePage implements OnInit {
       }
     }
 
-    //when the game has started we need to check the users input against the number he has to guess
+    //check if the game has started and enough numbers have been inputted to check the users guess
     if (this.gameStart) {
 
       let userGuess = (<HTMLInputElement> document.getElementById("userInput")).value;
@@ -111,19 +112,17 @@ export class GamePage implements OnInit {
     
     let tempNumber = this.theNumber.slice();  //make a copy of the number
     let tempGuess = this.theGuess.slice(); //make a copy of the Guess
-
-    
     let tempStats = this.checkCows( tempNumber, tempGuess ); //filter the cows from the number and the users guess
 
     //check if the game is over after checking for cows
     if ( this.numCows == this.digits ) {
       
-      this.gameOver = true;
+      this.setGameOver();
     
     } else { //else count the chickens in the remaining number
       
       this.checkChickens( tempStats ); 
-      this.guessedOnce = true;
+      this.setGuessedOnce();
       this.addTotalGuess();
     }
 
@@ -150,9 +149,7 @@ export class GamePage implements OnInit {
   checkChickens ( tempStats ) {
     
     let tempNumber = tempStats.tempNumber;
-    console.log(tempNumber);
     let tempGuess = tempStats.tempGuess;
-    console.log(tempGuess);
 
     for (let i = 0; i < tempGuess.length; i++ ) {
       for ( let j = 0; j < tempNumber.length; j++ ) {
@@ -188,6 +185,19 @@ export class GamePage implements OnInit {
     this.totalGuesses++;
   }
 
+  //setting functions
+  setGameOver() {
+    this.gameOver = !this.gameOver;
+  }
+
+  setGuessedOnce() {
+    this.guessedOnce = !this.guessedOnce;
+  }
+
+  setGameStarted() {
+    this.gameStart = !this.gameStart;
+  }
+
   //resetfunctions
   resetTheGuess () {
     this.theGuess = [];
@@ -201,15 +211,30 @@ export class GamePage implements OnInit {
     this.numChickens = 0;
   }
 
+  resetTotalCows () {
+    this.totalCows = 0;
+  }
+
+  resetTotalChickens () {
+    this.totalChickens = 0;
+  }
+
+  resetTotalGuesses () {
+    this.totalGuesses = 0;
+  }
+
+  //play again and reset everything
   playAgain () {
 
-    this.gameStart = false;
-    this.gameOver = false;
-    this.guessedOnce = false;
+    this.setGameStarted();
+    this.setGameOver();
+    this.setGuessedOnce();
+
+    this.resetTheGuess();
     
-    this.totalCows = 0;
-    this.totalChickens = 0;
-    this.totalGuesses = 0;
+    this.resetTotalCows();
+    this.resetTotalChickens();
+    this.resetTotalGuesses();
 
   }
 
